@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pinchbox | High-Resolution Collectible Recipe Cards</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F4ECD8',
+            burgundy: '#6B2D3E',
+            navy: '#2C3E50',
+            sepia: '#4A3728',
+            terracotta: '#C85A32',
+            sage: '#768A7F',
+            gold: '#E5A93B'
+          },
+          fontFamily: {
+            serif: ['"Libre Baskerville"', 'Georgia', 'serif'],
+            sans: ['"Lato"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F4ECD8;
+      color: #4A3728;
+      font-family: 'Lato', system-ui, sans-serif;
+    }
+    .retro-border {
+      border: 2px solid #4A3728;
+    }
+    .retro-shadow {
+      box-shadow: 4px 4px 0px 0px #4A3728;
+    }
+    .retro-shadow-sm {
+      box-shadow: 2px 2px 0px 0px #4A3728;
+    }
+
+    /* Print Specific Styles */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #1C1C1E !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-card-container {
+        page-break-after: always;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        width: 100% !important;
+        height: 100vh !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      /* Exact 4x6 inch Card layout at 300 DPI (1200x1800 px) scaled to physical margins */
+      .print-card {
+        width: 6in !important;
+        height: 4in !important;
+        border: 1px solid #1C1C1E !important;
+        padding: 0.25in !important;
+        box-sizing: border-box !important;
+        background: #F7F4EF !important;
+        box-shadow: none !important;
+        transform: none !important;
+        display: block !important;
+      }
+    }
+
+    /* Screen Preview card styling to mimic a physical 4x6 card on-screen */
+    .preview-card {
+      width: 100%;
+      max-width: 600px;
+      aspect-ratio: 6 / 4;
+      background-color: #F7F4EF;
+      border: 2px solid #4A3728;
+      box-shadow: 6px 6px 0px 0px #4A3728;
+      padding: 1.5rem;
+      position: relative;
+      box-sizing: border-box;
+      color: #1C1C1E;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-burgundy selection:text-cream">
+
+  <!-- Header (Screen Only) -->
+  <header class="w-full max-w-6xl mx-auto px-6 py-8 no-print">
+    <div class="flex flex-col md:flex-row items-center justify-between border-b-2 border-sepia pb-6">
+      <div class="text-center md:text-left mb-4 md:mb-0">
+        <span class="text-xs font-bold tracking-widest uppercase text-burgundy font-sans">ESTABLISHED 2026 • DIGITAL PRESS</span>
+        <h1 class="text-3xl md:text-4xl font-serif font-bold tracking-tight text-sepia mt-1">
+          <a href="/" class="hover:opacity-90">Pinchbox</a>
+        </h1>
+      </div>
+      <nav class="flex items-center space-x-6 text-sm font-bold tracking-wider uppercase text-sepia">
+        <a href="/" class="hover:text-burgundy transition-colors">Home</a>
+        <a href="/builder.html" class="hover:text-burgundy transition-colors">Box Builder</a>
+        <span class="text-burgundy font-serif italic text-xs lowercase">Print Station</span>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Interactive Print Station Dashboard -->
+  <main class="flex-grow w-full max-w-6xl mx-auto px-6 py-12 no-print">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <span class="text-xs font-bold tracking-widest uppercase text-burgundy block mb-2">Pinchbox Print Hub</span>
+      <h2 class="text-3xl md:text-5xl font-serif font-bold text-sepia">Collectible 4" x 6" Recipe Cards</h2>
+      <p class="text-sepia/80 mt-3 leading-relaxed">
+        Our recipe cards are precision-calibrated for high-fidelity printing. Use these high-resolution layouts for manufacturing reference, or print them directly to heavy cardstock on a home printer.
+      </p>
+    </div>
+
+    <!-- Overview Shot / Graphic -->
+    <div class="mb-16 border-2 border-sepia p-4 bg-white rounded-sm retro-shadow max-w-4xl mx-auto">
+      <img src="images/overhead-crisp-editorial-studio-shot-of-.png" alt="Pinchbox High-Resolution Collectible Recipe Cards Showcase" class="w-full h-auto object-cover rounded-sm border border-sepia/20" />
+      <div class="mt-4 text-center">
+        <span class="font-serif text-sm italic text-sepia">Aesthetic editorial overview of Pinchbox collectible physical cards</span>
+      </div>
+    </div>
+
+    <!-- Selector Tabs -->
+    <div class="flex justify-center space-x-4 mb-12">
+      <button onclick="switchRecipe('thai')" id="tab-thai" class="px-5 py-2.5 font-sans font-bold uppercase tracking-wider text-xs border-2 border-sepia bg-terracotta text-cream retro-shadow-sm transition-all">Thai Green Curry</button>
+      <button onclick="switchRecipe('mapo')" id="tab-mapo" class="px-5 py-2.5 font-sans font-bold uppercase tracking-wider text-xs border-2 border-sepia bg-white text-sepia hover:bg-sepia/5 retro-shadow-sm transition-all">Szechuan Mapo Tofu</button>
+      <button onclick="switchRecipe('tagine')" id="tab-tagine" class="px-5 py-2.5 font-sans font-bold uppercase tracking-wider text-xs border-2 border-sepia bg-white text-sepia hover:bg-sepia/5 retro-shadow-sm transition-all">Moroccan Tagine</button>
+    </div>
+
+    <!-- Active Card Preview Panel -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center justify-items-center mb-16">
+      
+      <!-- Card Front Preview -->
+      <div class="flex flex-col items-center">
+        <span class="text-xs font-bold uppercase tracking-widest text-burgundy mb-3">Card Front (Editorial Side)</span>
+        <div id="card-front-preview" class="preview-card flex flex-col justify-between">
+          <!-- Content dynamically loaded -->
+        </div>
+      </div>
+
+      <!-- Card Back Preview -->
+      <div class="flex flex-col items-center">
+        <span class="text-xs font-bold uppercase tracking-widest text-burgundy mb-3">Card Back (Interactive Instructions)</span>
+        <div id="card-back-preview" class="preview-card flex flex-col justify-between">
+          <!-- Content dynamically loaded -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Print Control Actions -->
+    <div class="bg-white p-8 rounded-sm border-2 border-sepia retro-shadow max-w-2xl mx-auto text-center">
+      <h3 class="font-serif text-xl font-bold text-sepia mb-2">Print & Manufacturing Directions</h3>
+      <p class="text-sm text-sepia/80 mb-6 leading-relaxed">
+        Ready to print this card? Click below to open your system's print dialog. For optimal physical feel, we recommend setting your printer to <strong>4x6 Photo Paper / Index Card</strong> size and printing double-sided on <strong>350gsm Matte Cardstock</strong>.
+      </p>
+      <button onclick="window.print()" class="inline-block bg-sepia text-cream font-bold uppercase tracking-wider text-xs py-4 px-8 rounded-sm border-2 border-sepia retro-shadow-sm hover:bg-burgundy hover:text-white transition-colors">
+        Trigger Print Sequence
+      </button>
+    </div>
+  </main>
+
+  <!-- Physical High-Resolution Print Engine (Skins generated inside hidden container, exposed only to print engine) -->
+  <div class="hidden print:block">
+    
+    <!-- Print Szechuan Mapo Tofu -->
+    <div class="print-card-container">
+      <div class="print-card flex flex-col justify-between border border-black p-6 bg-[#F7F4EF] text-[#1C1C1E]">
+        <div class="flex justify-between items-start border-b border-[#1C1C1E] pb-2">
+          <div>
+            <span class="text-[9px] font-bold tracking-widest uppercase text-[#C85A32]">SICHUAN • SPICY & NUMBING</span>
+            <h1 class="font-serif text-2xl font-bold text-[#1C1C1E] mt-0.5">Szechuan Mapo Tofu</h1>
+          </div>
+          <div class="text-right text-[10px] font-sans">
+            <div>Prep Time: <strong>25 Mins</strong></div>
+            <div>Serves: <strong>2-3</strong></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-6 my-4">
+          <div>
+            <h3 class="text-[10px] font-bold uppercase tracking-widest text-[#1C1C1E] mb-2 border-b border-[#1C1C1E]/30 pb-0.5">Fresh Shopping List</h3>
+            <ul class="space-y-1 text-xs text-[#1C1C1E]/90">
+              <li>• 1 Pack (14oz) Firm Tofu (cubed)</li>
+              <li>• 4oz Ground Pork (or shiitake minced)</li>
+              <li>• 2 Green Onions (finely sliced)</li>
+              <li>• 1 tbsp Cooking Oil</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-[10px] font-bold uppercase tracking-widest text-[#1C1C1E] mb-2 border-b border-[#1C1C1E]/30 pb-0.5">Pinchbox Sachets</h3>
+            <ul class="space-y-1 text-xs text-[#1C1C1E]/90">
+              <li><strong>Sachet A:</strong> Sichuan Peppercorn Blend</li>
+              <li><strong>Sachet B:</strong> Authentic Bird's Eye Chili</li>
+              <li><strong>Sachet C:</strong> Savory Soy & Sesame Powder</li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-[#1C1C1E]/30 pt-2 flex justify-between items-center text-[9px] text-[#1C1C1E]/70 font-sans">
+          <span>Packaged by IBR Packaging, Carrollton, TX</span>
+          <span>Contains: Sesame, Soy. Gluten-free.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mapo Tofu Back -->
+    <div class="print-card-container">
+      <div class="print-card flex flex-col justify-between border border-black p-6 bg-[#F7F4EF] text-[#1C1C1E]">
+        <div>
+          <h2 class="font-serif text-sm font-bold border-b border-[#1C1C1E] pb-1 uppercase tracking-wider mb-3">4-Step Weeknight Timeline</h2>
+          <div class="space-y-2 text-xs leading-tight">
+            <div>
+              <strong class="text-[#C85A32]">Step 1 (Brown & Sauté):</strong> Heat oil in skillet. Cook pork/shiitake over high heat until browned and crispy. Add half of the green onions.
+            </div>
+            <div>
+              <strong class="text-[#C85A32]">Step 2 (Spice Dispersion):</strong> Reduce heat to medium. Add <strong>Sachet A (Peppercorn)</strong> and <strong>Sachet B (Chili)</strong>. Sauté for 45 seconds until intensely aromatic.
+            </div>
+            <div>
+              <strong class="text-[#C85A32]">Step 3 (Simmer Tofu):</strong> Pour in 1/2 cup of water. Stir in <strong>Sachet C (Soy-Sesame blend)</strong> to build a rich, glossy gravy. Gently slide in cubed tofu. Simmer for 5 minutes.
+            </div>
+            <div>
+              <strong class="text-[#C85A32]">Step 4 (Finish & Serve):</strong> Remove from heat. Garnish with remaining green onions. Serve hot over steamed jasmine rice.
+            </div>
+          </div>
+        </div>
+        <div class="text-[9px] text-center text-[#1C1C1E]/60 border-t border-[#1C1C1E]/20 pt-2 font-serif italic">
+          Zero waste. Zero clutter. Hand-crafted in Batch 4.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer (Screen Only) -->
+  <footer class="w-full bg-sepia text-cream mt-24 py-12 no-print">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center border-b border-cream/20 pb-8">
+        <div>
+          <h4 class="font-serif text-2xl font-bold tracking-tight mb-2">Pinchbox</h4>
+          <p class="text-sm text-cream/85 max-w-sm">Premium pre-portioned single-recipe spice kits for effortless weeknight cooking.</p>
+        </div>
+        <div class="text-center md:text-right">
+          <p class="text-sm font-bold tracking-wider uppercase mb-2">Want to collaborate?</p>
+          <a href="mailto:hello@pinchbox.co" class="text-sm text-cream hover:underline">hello@pinchbox.co</a>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row justify-between items-center pt-8 text-xs text-cream/70">
+        <p>&copy; 2026 Pinchbox. All rights reserved. Spices packed in an FDA-registered facility.</p>
+        <p class="mt-2 md:mt-0">Designed for zero-waste high-flavor lifestyles.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Active Card Dynamic Data Switcher -->
+  <script>
+    const recipesData = {
+      thai: {
+        title: "Thai Green Curry",
+        category: "THAI • BRIGHT & FRAGRANT",
+        prep: "20 Mins",
+        serves: "2-3",
+        shopping: [
+          "12oz Chicken Breast or Tofu (sliced)",
+          "1 Can (13.5oz) Unsweetened Coconut Milk",
+          "1 bell pepper or eggplant (cubed)",
+          "1 tbsp oil"
+        ],
+        sachets: [
+          "<strong>Sachet A:</strong> Lemongrass & Galangal Root Blend",
+          "<strong>Sachet B:</strong> Premium Makrut Lime Leaf Powder",
+          "<strong>Sachet C:</strong> White Peppercorn & Coriander base"
+        ],
+        allergens: "Allergen Free. Packaged in a facility handling sesame and soy.",
+        steps: [
+          "<strong>Step 1 (Sauté Base):</strong> Heat cooking oil in a large saucepan over medium heat. Sauté <strong>Sachet C (white peppercorn & coriander)</strong> for 30 seconds until fragrant.",
+          "<strong>Step 2 (Build Curry Soup):</strong> Shake coconut milk well and pour half into the saucepan. Stir in <strong>Sachet A (lemongrass & galangal)</strong>. Bring to a gentle simmer for 3 minutes.",
+          "<strong>Step 3 (Protein & Veggies):</strong> Add chicken or tofu and sliced eggplant. Pour remaining coconut milk. Simmer over medium-low heat for 10-12 minutes until meat is tender.",
+          "<strong>Step 4 (Bright Finish):</strong> Stir in cubed bell pepper and sprinkle <strong>Sachet B (Makrut lime powder)</strong> over the top. Simmer for 2 minutes and serve over warm rice."
+        ]
+      },
+      mapo: {
+        title: "Szechuan Mapo Tofu",
+        category: "SICHUAN • SPICY & NUMBING",
+        prep: "25 Mins",
+        serves: "2-3",
+        shopping: [
+          "1 Pack (14oz) Firm Tofu (cubed)",
+          "4oz Ground Pork (or shiitake minced)",
+          "2 Green Onions (finely sliced)",
+          "1 tbsp Cooking Oil"
+        ],
+        sachets: [
+          "<strong>Sachet A:</strong> Sichuan Peppercorn Blend",
+          "<strong>Sachet B:</strong> Authentic Bird's Eye Chili",
+          "<strong>Sachet C:</strong> Savory Soy & Sesame Powder"
+        ],
+        allergens: "Contains: Sesame, Soy. Gluten-free.",
+        steps: [
+          "<strong>Step 1 (Brown & Sauté):</strong> Heat oil in skillet. Cook pork or minced mushrooms over high heat until browned and crispy. Stir in half of the green onions.",
+          "<strong>Step 2 (Spice Dispersion):</strong> Reduce heat to medium. Add <strong>Sachet A (Peppercorn)</strong> and <strong>Sachet B (Chili)</strong>. Sauté for 45 seconds until intensely aromatic.",
+          "<strong>Step 3 (Simmer Tofu):</strong> Pour in 1/2 cup of water. Stir in <strong>Sachet C (Soy-Sesame blend)</strong> to build a rich, glossy gravy. Gently slide in cubed tofu. Simmer for 5 minutes.",
+          "<strong>Step 4 (Finish & Serve):</strong> Remove from heat. Garnish with remaining green onions. Serve hot over steamed jasmine rice."
+        ]
+      },
+      tagine: {
+        title: "Moroccan Beef Tagine",
+        category: "MOROCCAN • SWEET & ARABESQUE",
+        prep: "35 Mins",
+        serves: "2-3",
+        shopping: [
+          "12oz Beef Chuck or Chickpeas (drained)",
+          "1 Yellow Onion (chopped)",
+          "1/2 cup Dried Apricots or Prunes (halved)",
+          "1 tbsp butter or olive oil"
+        ],
+        sachets: [
+          "<strong>Sachet A:</strong> Earthy Cumin & Ginger Base",
+          "<strong>Sachet B:</strong> Sweet Paprika & Cinnamon Blend",
+          "<strong>Sachet C:</strong> Sweet Cardamom & Nutmeg Finisher"
+        ],
+        allergens: "Allergen Free. Packaged in a facility handling sesame and soy.",
+        steps: [
+          "<strong>Step 1 (Sear Protein):</strong> Melt butter or olive oil in a Dutch oven or deep pot. Add chopped onions and brown meat/chickpeas over high heat for 5 minutes.",
+          "<strong>Step 2 (Earthy Base):</strong> Lower heat to medium-low. Add <strong>Sachet A (cumin & ginger)</strong> and cook for 1 minute until spices form a fragrant coating on the meat.",
+          "<strong>Step 3 (Slow Simmer):</strong> Pour in 1 cup of water and <strong>Sachet B (paprika & cinnamon)</strong>. Add dried fruit. Cover and simmer gently for 20 minutes (until beef is perfectly tender).",
+          "<strong>Step 4 (Fragrant Finish):</strong> Uncover, stir in <strong>Sachet C (cardamom & nutmeg)</strong>, and simmer for 3 minutes to thicken the reduction. Garnish with toasted almonds if desired."
+        ]
+      }
+    };
+
+    function switchRecipe(key) {
+      const data = recipesData[key];
+      
+      // Update Tab CSS
+      ['thai', 'mapo', 'tagine'].forEach(k => {
+        const btn = document.getElementById(`tab-${k}`);
+        if (k === key) {
+          btn.className = "px-5 py-2.5 font-sans font-bold uppercase tracking-wider text-xs border-2 border-sepia bg-terracotta text-cream retro-shadow-sm transition-all";
+        } else {
+          btn.className = "px-5 py-2.5 font-sans font-bold uppercase tracking-wider text-xs border-2 border-sepia bg-white text-sepia hover:bg-sepia/5 retro-shadow-sm transition-all";
+        }
+      });
+
+      // Render Front
+      const front = document.getElementById('card-front-preview');
+      front.innerHTML = `
+        <div class="flex justify-between items-start border-b border-[#1C1C1E] pb-2">
+          <div>
+            <span class="text-[9px] font-bold tracking-widest uppercase text-[#C85A32]">${data.category}</span>
+            <h1 class="font-serif text-2xl font-bold text-[#1C1C1E] mt-0.5">${data.title}</h1>
+          </div>
+          <div class="text-right text-[10px] font-sans">
+            <div>Prep Time: <strong>${data.prep}</strong></div>
+            <div>Serves: <strong>${data.serves}</strong></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-6 my-4 flex-grow">
+          <div>
+            <h3 class="text-[10px] font-bold uppercase tracking-widest text-[#1C1C1E] mb-2 border-b border-[#1C1C1E]/30 pb-0.5">Fresh Shopping List</h3>
+            <ul class="space-y-1 text-xs text-[#1C1C1E]/90">
+              ${data.shopping.map(item => `<li>• ${item}</li>`).join('')}
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-[10px] font-bold uppercase tracking-widest text-[#1C1C1E] mb-2 border-b border-[#1C1C1E]/30 pb-0.5">Pinchbox Sachets</h3>
+            <ul class="space-y-1 text-xs text-[#1C1C1E]/90">
+              ${data.sachets.map(s => `<li>${s}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-[#1C1C1E]/30 pt-2 flex justify-between items-center text-[9px] text-[#1C1C1E]/70 font-sans mt-auto">
+          <span>Packaged by IBR Packaging, Carrollton, TX</span>
+          <span>${data.allergens}</span>
+        </div>
+      `;
+
+      // Render Back
+      const back = document.getElementById('card-back-preview');
+      back.innerHTML = `
+        <div class="flex flex-col h-full justify-between">
+          <div>
+            <h2 class="font-serif text-sm font-bold border-b border-[#1C1C1E] pb-1 uppercase tracking-wider mb-3">4-Step Weeknight Timeline</h2>
+            <div class="space-y-2.5 text-xs leading-tight">
+              ${data.steps.map(step => `<div>${step}</div>`).join('')}
+            </div>
+          </div>
+          <div class="text-[9px] text-center text-[#1C1C1E]/60 border-t border-[#1C1C1E]/20 pt-2 font-serif italic mt-auto">
+            Zero waste. Zero clutter. Hand-crafted in Batch 4.
+          </div>
+        </div>
+      `;
+    }
+
+    // Set initial display to Szechuan Mapo Tofu
+    switchRecipe('thai');
+  </script>
+</body>
+</html>
