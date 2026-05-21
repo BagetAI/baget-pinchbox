@@ -83,6 +83,15 @@
         Thank you for pre-ordering your Pinchbox. Your batch reservation has been successfully secured for our first shipping cycle starting **September 15, 2026**.
       </p>
 
+      <!-- Custom Selection Panel (Dynamic) -->
+      <div id="dynamic-order-summary" class="hidden bg-cream/40 p-5 rounded border border-sepia/20 text-left mb-8">
+        <h3 class="font-serif font-bold text-sm text-sepia mb-3 pb-2 border-b border-sepia/10">Your Hand-Built Box Selection:</h3>
+        <div id="dynamic-items-list" class="space-y-2 mb-4 text-xs font-bold text-sepia">
+          <!-- Items will be injected here -->
+        </div>
+        <p class="text-[10px] text-sepia/70">Need to make adjustments to your spice lineup? Don't worry — we'll email you a selector link in August before we grind and pack your spices.</p>
+      </div>
+
       <div class="bg-cream p-4 rounded-sm border border-sepia/30 text-left mb-8 text-sm">
         <h3 class="font-serif font-bold text-sepia mb-2">What Happens Next?</h3>
         <ul class="space-y-2 text-sepia/85">
@@ -114,5 +123,35 @@
     </div>
   </footer>
 
+  <script>
+    // Load custom order from localStorage
+    try {
+      const savedOrder = localStorage.getItem('pinchbox_order');
+      if (savedOrder) {
+        const order = JSON.parse(savedOrder);
+        const container = document.getElementById('dynamic-order-summary');
+        const listContainer = document.getElementById('dynamic-items-list');
+        
+        if (order && order.items && order.items.length > 0) {
+          listContainer.innerHTML = '';
+          order.items.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'flex justify-between items-center';
+            div.innerHTML = `
+              <span>${item.name}</span>
+              <span class="bg-sepia text-cream font-serif px-2 py-0.5 rounded text-[10px]">x${item.qty}</span>
+            `;
+            listContainer.appendChild(div);
+          });
+          container.classList.remove('hidden');
+          
+          // Clear selections after showing to avoid confusion in subsequent visits
+          localStorage.removeItem('pinchbox_order');
+        }
+      }
+    } catch (e) {
+      console.error('Error parsing order summary:', e);
+    }
+  </script>
 </body>
 </html>

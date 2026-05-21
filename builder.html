@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pinchbox | Custom Box Builder</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#F4ECD8',
+            burgundy: '#6B2D3E',
+            navy: '#2C3E50',
+            sepia: '#4A3728',
+            terracotta: '#C85A32',
+            sage: '#768A7F',
+            gold: '#E5A93B'
+          },
+          fontFamily: {
+            serif: ['"Libre Baskerville"', 'Georgia', 'serif'],
+            sans: ['"Lato"', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #F4ECD8;
+      color: #4A3728;
+      font-family: 'Lato', system-ui, sans-serif;
+      position: relative;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 9999;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+    .retro-border {
+      border: 2px solid #4A3728;
+    }
+    .retro-shadow {
+      box-shadow: 4px 4px 0px 0px #4A3728;
+    }
+    .retro-shadow-sm {
+      box-shadow: 2px 2px 0px 0px #4A3728;
+    }
+    .active-size-btn {
+      background-color: #C85A32;
+      color: #F4ECD8;
+      border-color: #4A3728;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between antialiased selection:bg-burgundy selection:text-cream">
+
+  <!-- Header / Navigation -->
+  <header class="w-full max-w-6xl mx-auto px-6 py-8">
+    <div class="flex flex-col md:flex-row items-center justify-between border-b-2 border-sepia pb-6">
+      <div class="text-center md:text-left mb-4 md:mb-0">
+        <span class="text-xs font-bold tracking-widest uppercase text-burgundy font-sans">ESTABLISHED 2026</span>
+        <h1 class="text-3xl md:text-4xl font-serif font-bold tracking-tight text-sepia mt-1">
+          <a href="/" class="hover:opacity-90">Pinchbox</a>
+        </h1>
+      </div>
+      <nav class="flex items-center space-x-6 text-sm font-bold tracking-wider uppercase text-sepia">
+        <a href="/" class="hover:text-burgundy transition-colors">Home</a>
+        <a href="/#recipes" class="hover:text-burgundy transition-colors">Recipes</a>
+        <span class="text-burgundy font-serif italic text-xs lowercase">Custom Box Builder</span>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Box Builder Main Container -->
+  <main class="flex-grow w-full max-w-6xl mx-auto px-6 py-8">
+    
+    <!-- Step 1: Choose Box Size -->
+    <section class="mb-12">
+      <div class="text-center md:text-left mb-6">
+        <span class="text-xs font-bold tracking-widest uppercase text-burgundy block mb-1">STEP 1</span>
+        <h2 class="text-2xl md:text-3xl font-serif font-bold text-sepia">Choose Your Box Capacity</h2>
+        <p class="text-sm text-sepia/80">Select how many single-recipe spice kits you want to build into your Pinchbox.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl">
+        <!-- 3 Kits -->
+        <button onclick="setBoxSize(3)" id="size-btn-3" class="text-left bg-white p-6 rounded-sm border-2 border-sepia retro-shadow hover:scale-[1.01] transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-serif text-lg font-bold">3-Kit Starter</span>
+              <span class="text-xs bg-sepia/10 px-2 py-1 rounded-sm font-bold">$27.00</span>
+            </div>
+            <p class="text-xs opacity-80 leading-relaxed">Excellent introduction to weeknight global meals. $9.00 per kit.</p>
+          </div>
+        </button>
+
+        <!-- 5 Kits -->
+        <button onclick="setBoxSize(5)" id="size-btn-5" class="text-left bg-white p-6 rounded-sm border-2 border-sepia retro-shadow hover:scale-[1.01] transition-all flex flex-col justify-between active-size-btn">
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-serif text-lg font-bold flex items-center">
+                5-Kit Custom
+                <span class="ml-2 text-[8px] tracking-wider uppercase bg-cream text-terracotta px-1.5 py-0.5 rounded border border-terracotta font-sans font-bold">Best Value</span>
+              </span>
+              <span class="text-xs bg-sepia/10 px-2 py-1 rounded-sm font-bold">$39.99</span>
+            </div>
+            <p class="text-xs opacity-80 leading-relaxed">Our most popular choice. Curate from all launch recipes. $8.00 per kit.</p>
+          </div>
+        </button>
+
+        <!-- 8 Kits -->
+        <button onclick="setBoxSize(8)" id="size-btn-8" class="text-left bg-white p-6 rounded-sm border-2 border-sepia retro-shadow hover:scale-[1.01] transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-serif text-lg font-bold">8-Kit Ultimate</span>
+              <span class="text-xs bg-sepia/10 px-2 py-1 rounded-sm font-bold">$59.99</span>
+            </div>
+            <p class="text-xs opacity-80 leading-relaxed">For culinary enthusiasts. Store extra boxes for simple evenings. $7.50 per kit.</p>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <!-- Step 2: Recipe Selector & Progress Panel -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      
+      <!-- Left Column: Recipe Selector Grid (8 cols) -->
+      <section class="lg:col-span-8">
+        <div class="mb-6">
+          <span class="text-xs font-bold tracking-widest uppercase text-burgundy block mb-1">STEP 2</span>
+          <h3 class="text-xl md:text-2xl font-serif font-bold text-sepia">Select Your Recipe Spice Kits</h3>
+          <p class="text-sm text-sepia/80">Mix and match recipes. Add duplicates of your favorites or try them all.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Recipe 1: Thai Green Curry -->
+          <div class="bg-white rounded-sm border-2 border-sepia retro-shadow p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-[9px] font-bold tracking-widest text-burgundy uppercase">THAI • BRIGHT & FRAGRANT</span>
+                <span class="text-xs font-bold text-sage">Prep: 20 mins</span>
+              </div>
+              <h4 class="font-serif text-lg font-bold text-sepia mb-2">Thai Green Curry</h4>
+              <p class="text-xs text-sepia/80 leading-relaxed mb-4">
+                A highly aromatic green curry base with dehydrated galangal, Makrut lime leaf powder, lemongrass, white pepper, and ground coriander.
+              </p>
+              <div class="bg-cream/40 p-2.5 rounded border border-sepia/10 text-[11px] text-sepia/90 mb-6">
+                <strong>Spice Profile:</strong> White Pepper, Coriander, Cumin, Lemongrass, Galangal, Makrut Lime, Serrano Chili.
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-sepia">Add to Box</span>
+              <div class="flex items-center space-x-3">
+                <button onclick="adjustRecipe('thai-green-curry', -1)" class="w-8 h-8 rounded-full border-2 border-sepia flex items-center justify-center font-bold hover:bg-sepia/5">-</button>
+                <span id="qty-thai-green-curry" class="font-serif font-bold text-lg min-w-[12px] text-center">0</span>
+                <button onclick="adjustRecipe('thai-green-curry', 1)" class="w-8 h-8 rounded-full border-2 border-sepia flex items-center justify-center font-bold hover:bg-sepia/5">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recipe 2: Moroccan Beef Tagine -->
+          <div class="bg-white rounded-sm border-2 border-sepia retro-shadow p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-[9px] font-bold tracking-widest text-burgundy uppercase">MOROCCAN • SWEET & ARABESQUE</span>
+                <span class="text-xs font-bold text-sage">Prep: 35 mins</span>
+              </div>
+              <h4 class="font-serif text-lg font-bold text-sepia mb-2">Moroccan Beef Tagine</h4>
+              <p class="text-xs text-sepia/80 leading-relaxed mb-4">
+                An earthy and deep spice seasoning featuring premium sweet paprika, ground cumin, ginger, cinnamon, coriander, and allspice.
+              </p>
+              <div class="bg-cream/40 p-2.5 rounded border border-sepia/10 text-[11px] text-sepia/90 mb-6">
+                <strong>Spice Profile:</strong> Cumin, Ginger, Cinnamon, Sweet Paprika, Coriander, Cardamom, Clove, Nutmeg.
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-sepia">Add to Box</span>
+              <div class="flex items-center space-x-3">
+                <button onclick="adjustRecipe('moroccan-tagine', -1)" class="w-8 h-8 rounded-full border-2 border-sepia flex items-center justify-center font-bold hover:bg-sepia/5">-</button>
+                <span id="qty-moroccan-tagine" class="font-serif font-bold text-lg min-w-[12px] text-center">0</span>
+                <button onclick="adjustRecipe('moroccan-tagine', 1)" class="w-8 h-8 rounded-full border-2 border-sepia flex items-center justify-center font-bold hover:bg-sepia/5">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recipe 3: Szechuan Mapo Tofu -->
+          <div class="bg-white rounded-sm border-2 border-sepia retro-shadow p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-[9px] font-bold tracking-widest text-burgundy uppercase">SICHUAN • SPICY & NUMBING</span>
+                <span class="text-xs font-bold text-sage">Prep: 25 mins</span>
+              </div>
+              <h4 class="font-serif text-lg font-bold text-sepia mb-2">Szechuan Mapo Tofu</h4>
+              <p class="text-xs text-sepia/80 leading-relaxed mb-4">
+                Features premium red Sichuan peppercorns for authentic numbing tingle, custom dried bird's eye chiles, and sesame powder.
+              </p>
+              <div class="bg-orange-50 p-2.5 rounded border border-red-200 text-[11px] text-red-800 mb-6 font-bold">
+                Allergens: Contains Soy, Sesame. Packaged in a facility handling gluten.
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-sepia">Add to Box</span>
+              <div class="flex items-center space-x-3">
+                <button onclick="adjustRecipe('mapo-tofu', -1)" class="w-8 h-8 rounded-full border-2 border-sepia flex items-center justify-center font-bold hover:bg-sepia/5">-</button>
+                <span id="qty-mapo-tofu" class="font-serif font-bold text-lg min-w-[12px] text-center">0</span>
+                <button onclick="adjustRecipe('mapo-tofu', 1)" class="w-8 h-8 rounded-full border-2 border-sepia flex items-center justify-center font-bold hover:bg-sepia/5">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recipe 4: West African Peanut Stew -->
+          <div class="bg-white rounded-sm border-2 border-sepia retro-shadow p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-[9px] font-bold tracking-widest text-burgundy uppercase">WEST AFRICAN • WARMING</span>
+                <span class="text-xs font-bold text-sage">Prep: 30 mins</span>
+              </div>
+              <h4 class="font-serif text-lg font-bold text-sepia mb-2">West African Peanut Stew</h4>
+              <p class="text-xs text-sepia/80 leading-relaxed mb-4">
+                Warming, deep tones of roasted coriander, sweet smoked paprika, toasted cumin, and a subtle cayenne heat finish.
+              </p>
+              <div class="bg-cream/40 p-2.5 rounded border border-sepia/10 text-[11px] text-sepia/90 mb-6">
+                <strong>Spice Profile:</strong> Coriander, Smoked Paprika, Toasted Cumin, Ginger, Garlic, Cayenne Pepper, Allspice.
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-sepia">Add to Box</span>
+              <div class="flex items-center space-x-3">
+                <button onclick="adjustRecipe('peanut-stew', -1)" class="w-8 h-8 rounded-full border-2 border-sepia flex items-center justify-center font-bold hover:bg-sepia/5">-</button>
+                <span id="qty-peanut-stew" class="font-serif font-bold text-lg min-w-[12px] text-center">0</span>
+                <button onclick="adjustRecipe('peanut-stew', 1)" class="w-8 h-8 rounded-full border-2 border-sepia flex items-center justify-center font-bold hover:bg-sepia/5">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recipe 5: Turkish Shakshuka -->
+          <div class="bg-white rounded-sm border-2 border-sepia retro-shadow p-6 flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2">
+                <span class="text-[9px] font-bold tracking-widest text-burgundy uppercase">TURKISH • SAVORY & SWEET</span>
+                <span class="text-xs font-bold text-sage">Prep: 20 mins</span>
+              </div>
+              <h4 class="font-serif text-lg font-bold text-sepia mb-2">Turkish Shakshuka</h4>
+              <p class="text-xs text-sepia/80 leading-relaxed mb-4">
+                Rich earthy ground cumin, vibrant sweet paprika, and single-origin Aleppo pepper flakes for an authentic aromatic kick.
+              </p>
+              <div class="bg-cream/40 p-2.5 rounded border border-sepia/10 text-[11px] text-sepia/90 mb-6">
+                <strong>Spice Profile:</strong> Aleppo Pepper Flakes, Ground Cumin, Sweet Smoked Paprika, Garlic, Coriander.
+              </div>
+            </div>
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-sepia">Add to Box</span>
+              <div class="flex items-center space-x-3">
+                <button onclick="adjustRecipe('shakshuka', -1)" class="w-8 h-8 rounded-full border-2 border-sepia flex items-center justify-center font-bold hover:bg-sepia/5">-</button>
+                <span id="qty-shakshuka" class="font-serif font-bold text-lg min-w-[12px] text-center">0</span>
+                <button onclick="adjustRecipe('shakshuka', 1)" class="w-8 h-8 rounded-full border-2 border-sepia flex items-center justify-center font-bold hover:bg-sepia/5">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Sticky Box Progress Panel (4 cols) -->
+      <aside class="lg:col-span-4 lg:sticky lg:top-8">
+        <div class="bg-white rounded-sm border-2 border-sepia retro-shadow p-6">
+          <h3 class="font-serif text-xl font-bold text-sepia mb-4">Your Custom Box</h3>
+          
+          <!-- Box Size Display -->
+          <div class="flex justify-between items-center text-xs text-sepia/80 mb-2">
+            <span>Box Capacity:</span>
+            <span id="summary-capacity-label" class="font-bold">5 Kits</span>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="w-full bg-cream h-4 rounded-full overflow-hidden border border-sepia/30 mb-2">
+            <div id="progress-bar-fill" class="bg-terracotta h-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+          <div class="flex justify-between items-center text-xs text-sepia/90 mb-6">
+            <span id="progress-text-label">0 of 5 kits selected</span>
+            <span id="progress-warning-label" class="text-burgundy font-bold"></span>
+          </div>
+
+          <!-- Items list in box -->
+          <div class="thin-hr mb-4 border-t border-sepia/20"></div>
+          <h4 class="text-xs font-bold uppercase tracking-wider text-sepia mb-3">Selected Kits</h4>
+          <div id="summary-items-list" class="space-y-2 mb-6 text-sm">
+            <p class="text-xs text-sepia/60 italic">Your box is currently empty. Use the buttons on the left to add spice kits!</p>
+          </div>
+
+          <!-- Totals and Checkout -->
+          <div class="thin-hr mb-4 border-t border-sepia/20"></div>
+          <div class="flex justify-between items-center mb-6">
+            <span class="font-bold text-sepia">Subtotal:</span>
+            <span id="summary-price-label" class="font-serif text-xl font-bold text-terracotta">$39.99</span>
+          </div>
+
+          <button id="checkout-button" disabled onclick="checkoutBox()" class="w-full text-center bg-sepia text-cream font-bold uppercase tracking-wider text-xs py-4 rounded-sm border-2 border-sepia retro-shadow-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+            Fill Box to Continue
+          </button>
+          
+          <p class="text-[10px] text-center text-sepia/60 mt-3">Free USPS Ground Advantage shipping included. Ships September 15, 2026.</p>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full bg-sepia text-cream mt-24 py-12">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center border-b border-cream/20 pb-8">
+        <div>
+          <h4 class="font-serif text-2xl font-bold tracking-tight mb-2">Pinchbox</h4>
+          <p class="text-sm text-cream/85 max-w-sm">Premium pre-portioned single-recipe spice kits for effortless weeknight cooking.</p>
+        </div>
+        <div class="text-center md:text-right">
+          <p class="text-sm font-bold tracking-wider uppercase mb-2">Want to collaborate?</p>
+          <a href="mailto:hello@pinchbox.co" class="text-sm text-cream hover:underline">hello@pinchbox.co</a>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row justify-between items-center pt-8 text-xs text-cream/70">
+        <p>&copy; 2026 Pinchbox. All rights reserved. Spices packed in an FDA-registered facility.</p>
+        <p class="mt-2 md:mt-0">Designed for zero-waste high-flavor lifestyles.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Box Builder Logic -->
+  <script>
+    // Configuration
+    let boxSize = 5;
+    const selections = {
+      'thai-green-curry': 0,
+      'moroccan-tagine': 0,
+      'mapo-tofu': 0,
+      'peanut-stew': 0,
+      'shakshuka': 0
+    };
+
+    const recipeNames = {
+      'thai-green-curry': 'Thai Green Curry',
+      'moroccan-tagine': 'Moroccan Beef Tagine',
+      'mapo-tofu': 'Szechuan Mapo Tofu',
+      'peanut-stew': 'West African Peanut Stew',
+      'shakshuka': 'Turkish Shakshuka'
+    };
+
+    const priceTiers = {
+      3: 27.00,
+      5: 39.99,
+      8: 59.99
+    };
+
+    const stripeLinks = {
+      3: 'https://buy.stripe.com/test_4gM28q5ba8DE1P667V1ZS3w',
+      5: 'https://buy.stripe.com/test_cNi4gy3327zA79q9k71ZS3x',
+      8: 'https://buy.stripe.com/test_5kQcN4gTSbPQ65m2VJ1ZS3y'
+    };
+
+    // Update Box Size Selection
+    function setBoxSize(size) {
+      boxSize = size;
+      
+      // Update sizes active class
+      [3, 5, 8].forEach(s => {
+        const btn = document.getElementById(`size-btn-${s}`);
+        if (s === size) {
+          btn.classList.add('active-size-btn');
+        } else {
+          btn.classList.remove('active-size-btn');
+        }
+      });
+
+      // Clear any items that exceed the new capacity limit
+      let currentTotal = Object.values(selections).reduce((sum, val) => sum + val, 0);
+      if (currentTotal > boxSize) {
+        Object.keys(selections).forEach(id => {
+          selections[id] = 0;
+          document.getElementById(`qty-${id}`).textContent = '0';
+        });
+      }
+
+      // Update calculations
+      updateUI();
+    }
+
+    // Adjust Recipe quantity in box
+    function adjustRecipe(recipeId, increment) {
+      const currentTotal = Object.values(selections).reduce((sum, val) => sum + val, 0);
+      
+      if (increment > 0 && currentTotal >= boxSize) {
+        // Box is already full
+        alert(`Your ${boxSize}-kit box is full! Increase box size above or remove a different kit first.`);
+        return;
+      }
+
+      if (increment < 0 && selections[recipeId] <= 0) {
+        // Cannot go below 0
+        return;
+      }
+
+      selections[recipeId] += increment;
+      
+      // Update specific input display
+      document.getElementById(`qty-${recipeId}`).textContent = selections[recipeId];
+      
+      updateUI();
+    }
+
+    // Update progress panel and sticky states
+    function updateUI() {
+      const currentTotal = Object.values(selections).reduce((sum, val) => sum + val, 0);
+      
+      // Label updates
+      document.getElementById('summary-capacity-label').textContent = `${boxSize} Kits`;
+      document.getElementById('summary-price-label').textContent = `$${priceTiers[boxSize].toFixed(2)}`;
+      document.getElementById('progress-text-label').textContent = `${currentTotal} of ${boxSize} kits selected`;
+      
+      // Progress bar fill
+      const percentage = Math.min((currentTotal / boxSize) * 100, 100);
+      document.getElementById('progress-bar-fill').style.width = `${percentage}%`;
+
+      // Warning / instructions
+      const warningEl = document.getElementById('progress-warning-label');
+      const checkoutBtn = document.getElementById('checkout-button');
+      
+      if (currentTotal === boxSize) {
+        warningEl.textContent = 'Box Completed!';
+        warningEl.className = 'text-emerald-700 font-bold';
+        checkoutBtn.removeAttribute('disabled');
+        checkoutBtn.textContent = 'Pre-Order My Custom Box';
+        checkoutBtn.className = 'w-full text-center bg-terracotta text-cream font-bold uppercase tracking-wider text-xs py-4 rounded-sm border-2 border-sepia retro-shadow-sm transition-all hover:bg-burgundy hover:text-white';
+      } else {
+        const diff = boxSize - currentTotal;
+        warningEl.textContent = `Add ${diff} more kit${diff > 1 ? 's' : ''}`;
+        warningEl.className = 'text-burgundy font-bold';
+        checkoutBtn.setAttribute('disabled', 'true');
+        checkoutBtn.textContent = `Add ${diff} More Kit${diff > 1 ? 's' : ''} to Checkout`;
+        checkoutBtn.className = 'w-full text-center bg-sepia text-cream font-bold uppercase tracking-wider text-xs py-4 rounded-sm border-2 border-sepia retro-shadow-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed';
+      }
+
+      // Render summary items list
+      const summaryList = document.getElementById('summary-items-list');
+      summaryList.innerHTML = '';
+      
+      let hasItems = false;
+      Object.entries(selections).forEach(([id, qty]) => {
+        if (qty > 0) {
+          hasItems = true;
+          const div = document.createElement('div');
+          div.className = 'flex justify-between items-center bg-cream/30 p-2 rounded border border-sepia/10';
+          div.innerHTML = `
+            <span class="font-bold text-xs text-sepia">${recipeNames[id]}</span>
+            <span class="text-xs bg-sepia text-cream font-serif font-bold px-2 py-0.5 rounded">x${qty}</span>
+          `;
+          summaryList.appendChild(div);
+        }
+      });
+
+      if (!hasItems) {
+        summaryList.innerHTML = '<p class="text-xs text-sepia/60 italic">Your box is currently empty. Use the buttons on the left to add spice kits!</p>';
+      }
+    }
+
+    // Trigger Stripe Redirect & Save to LocalStorage
+    function checkoutBox() {
+      const currentTotal = Object.values(selections).reduce((sum, val) => sum + val, 0);
+      if (currentTotal !== boxSize) {
+        alert('Please complete your box selections first.');
+        return;
+      }
+
+      // Save built box to localStorage so success.html can display it dynamically
+      const orderSummary = {
+        boxSize: boxSize,
+        price: priceTiers[boxSize],
+        items: []
+      };
+
+      Object.entries(selections).forEach(([id, qty]) => {
+        if (qty > 0) {
+          orderSummary.items.push({
+            id: id,
+            name: recipeNames[id],
+            qty: qty
+          });
+        }
+      });
+
+      localStorage.setItem('pinchbox_order', JSON.stringify(orderSummary));
+
+      // Redirect to the respective Stripe Payment Link
+      window.location.href = stripeLinks[boxSize];
+    }
+
+    // Parse URL Parameters
+    function parseParams() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const sizeParam = parseInt(urlParams.get('size'));
+      if ([3, 5, 8].includes(sizeParam)) {
+        setBoxSize(sizeParam);
+      } else {
+        setBoxSize(5); // Default
+      }
+    }
+
+    // Initial state run
+    parseParams();
+  </script>
+</body>
+</html>
