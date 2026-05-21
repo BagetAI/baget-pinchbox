@@ -67,6 +67,9 @@
       box-shadow: 0 0 0 2px #C85A32;
     }
   </style>
+  <!-- Pinchbox Analytical Infrastructure (ESTABLISHED 2026) -->
+  <script src="/analytics.js"></script>
+  <script src="/analytics-ui.js"></script>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased selection:bg-burgundy selection:text-cream">
 
@@ -80,8 +83,8 @@
       <nav class="flex items-center space-x-6 text-sm font-bold tracking-wider uppercase text-sepia">
         <a href="#concept" class="hover:text-burgundy transition-colors">The Concept</a>
         <a href="#recipes" class="hover:text-burgundy transition-colors">Launch Recipes</a>
-        <a href="/builder.html" class="hover:text-burgundy transition-colors">Custom Box Builder</a>
-        <a href="/cards.html" class="hover:text-burgundy transition-colors text-burgundy">Print Cards</a>
+        <a href="/builder.html" class="hover:text-burgundy transition-colors" onclick="PinchboxAnalytics.track('click_navigation', { destination: 'builder' })">Custom Box Builder</a>
+        <a href="/cards.html" class="hover:text-burgundy transition-colors text-burgundy" onclick="PinchboxAnalytics.track('click_navigation', { destination: 'print_station' })">Print Cards</a>
         <a href="#waitlist" class="bg-burgundy text-cream px-4 py-2 rounded-sm hover:opacity-95 transition-opacity retro-shadow-sm">Join Waitlist</a>
       </nav>
     </div>
@@ -106,10 +109,10 @@
           <p class="text-sm text-sepia/80 mb-4">Choose to secure your spice kits via instant test checkout or join the waitlist for free.</p>
           
           <div class="flex gap-2 mb-4">
-            <a href="/builder.html" class="flex-1 text-center bg-terracotta text-cream py-2 rounded-sm text-xs font-bold uppercase tracking-wider border-2 border-sepia retro-shadow-sm hover:opacity-95">
+            <a href="/builder.html" class="flex-1 text-center bg-terracotta text-cream py-2 rounded-sm text-xs font-bold uppercase tracking-wider border-2 border-sepia retro-shadow-sm hover:opacity-95" onclick="PinchboxAnalytics.track('click_cta', { position: 'hero_builder' })">
               Build My Box
             </a>
-            <a href="#waitlist-form-anchor" class="flex-1 text-center bg-transparent text-sepia py-2 rounded-sm text-xs font-bold uppercase tracking-wider border-2 border-sepia hover:bg-sepia/5">
+            <a href="#waitlist-form-anchor" class="flex-1 text-center bg-transparent text-sepia py-2 rounded-sm text-xs font-bold uppercase tracking-wider border-2 border-sepia hover:bg-sepia/5" onclick="PinchboxAnalytics.track('click_cta', { position: 'hero_waitlist' })">
               Waitlist Only
             </a>
           </div>
@@ -151,7 +154,7 @@
               <li class="flex items-center"><span class="text-terracotta font-bold mr-2">✓</span> 3 Collectible Heavy 4x6 Recipe Cards</li>
             </ul>
           </div>
-          <a href="/builder.html?size=3" class="block w-full text-center bg-sepia text-cream font-bold uppercase tracking-wider text-xs py-3 rounded-sm border-2 border-sepia retro-shadow-sm hover:bg-burgundy hover:text-white transition-colors">
+          <a href="/builder.html?size=3" onclick="PinchboxAnalytics.trackBoxSizeSelection(3, 27.00)" class="block w-full text-center bg-sepia text-cream font-bold uppercase tracking-wider text-xs py-3 rounded-sm border-2 border-sepia retro-shadow-sm hover:bg-burgundy hover:text-white transition-colors">
             Pre-Order Starter Kit
           </a>
         </div>
@@ -173,7 +176,7 @@
               <li class="flex items-center"><span class="text-terracotta font-bold mr-2">✓</span> Priority Batch Shipment</li>
             </ul>
           </div>
-          <a href="/builder.html?size=5" class="block w-full text-center bg-terracotta text-cream font-bold uppercase tracking-wider text-xs py-3 rounded-sm border-2 border-sepia retro-shadow-sm hover:opacity-95 transition-opacity">
+          <a href="/builder.html?size=5" onclick="PinchboxAnalytics.trackBoxSizeSelection(5, 39.99)" class="block w-full text-center bg-terracotta text-cream font-bold uppercase tracking-wider text-xs py-3 rounded-sm border-2 border-sepia retro-shadow-sm hover:opacity-95 transition-opacity">
             Pre-Order Custom Box
           </a>
         </div>
@@ -192,7 +195,7 @@
               <li class="flex items-center"><span class="text-terracotta font-bold mr-2">✓</span> Best-Value Kit Price</li>
             </ul>
           </div>
-          <a href="/builder.html?size=8" class="block w-full text-center bg-sepia text-cream font-bold uppercase tracking-wider text-xs py-3 rounded-sm border-2 border-sepia retro-shadow-sm hover:bg-burgundy hover:text-white transition-colors">
+          <a href="/builder.html?size=8" onclick="PinchboxAnalytics.trackBoxSizeSelection(8, 59.99)" class="block w-full text-center bg-sepia text-cream font-bold uppercase tracking-wider text-xs py-3 rounded-sm border-2 border-sepia retro-shadow-sm hover:bg-burgundy hover:text-white transition-colors">
             Pre-Order Ultimate Box
           </a>
         </div>
@@ -258,7 +261,7 @@
         </p>
         <div class="thin-hr mb-6"></div>
         <div class="flex flex-col sm:flex-row gap-4 mb-6 justify-center lg:justify-start">
-          <a href="/cards.html" class="inline-block text-center bg-terracotta text-cream font-bold uppercase tracking-wider text-xs py-3 px-6 rounded-sm border-2 border-sepia retro-shadow-sm hover:opacity-95">
+          <a href="/cards.html" class="inline-block text-center bg-terracotta text-cream font-bold uppercase tracking-wider text-xs py-3 px-6 rounded-sm border-2 border-sepia retro-shadow-sm hover:opacity-95" onclick="PinchboxAnalytics.track('click_cta', { position: 'feature_cards_view' })">
             View High-Res Print Templates
           </a>
         </div>
@@ -289,7 +292,7 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
         <!-- Recipe 1 -->
-        <div class="border-2 border-sepia p-4 bg-white rounded-sm flex flex-col justify-between">
+        <div class="border-2 border-sepia p-4 bg-white rounded-sm flex flex-col justify-between cursor-pointer hover:scale-[1.02] transition-all" onclick="PinchboxAnalytics.track('click_recipe_card_pdp', { recipe: 'mapo_tofu' })">
           <div>
             <span class="text-[10px] font-bold tracking-widest text-burgundy uppercase block mb-1">SICHUAN</span>
             <h4 class="font-serif text-lg font-bold text-sepia mb-2">Mapo Tofu</h4>
@@ -301,7 +304,7 @@
         </div>
 
         <!-- Recipe 2 -->
-        <div class="border-2 border-sepia p-4 bg-white rounded-sm flex flex-col justify-between">
+        <div class="border-2 border-sepia p-4 bg-white rounded-sm flex flex-col justify-between cursor-pointer hover:scale-[1.02] transition-all" onclick="PinchboxAnalytics.track('click_recipe_card_pdp', { recipe: 'beef_tagine' })">
           <div>
             <span class="text-[10px] font-bold tracking-widest text-burgundy uppercase block mb-1">MOROCCAN</span>
             <h4 class="font-serif text-lg font-bold text-sepia mb-2">Beef Tagine</h4>
@@ -313,7 +316,7 @@
         </div>
 
         <!-- Recipe 3 -->
-        <div class="border-2 border-sepia p-4 bg-white rounded-sm flex flex-col justify-between">
+        <div class="border-2 border-sepia p-4 bg-white rounded-sm flex flex-col justify-between cursor-pointer hover:scale-[1.02] transition-all" onclick="PinchboxAnalytics.track('click_recipe_card_pdp', { recipe: 'green_curry' })">
           <div>
             <span class="text-[10px] font-bold tracking-widest text-burgundy uppercase block mb-1">THAI</span>
             <h4 class="font-serif text-lg font-bold text-sepia mb-2">Green Curry</h4>
@@ -325,7 +328,7 @@
         </div>
 
         <!-- Recipe 4 -->
-        <div class="border-2 border-sepia p-4 bg-white rounded-sm flex flex-col justify-between">
+        <div class="border-2 border-sepia p-4 bg-white rounded-sm flex flex-col justify-between cursor-pointer hover:scale-[1.02] transition-all" onclick="PinchboxAnalytics.track('click_recipe_card_pdp', { recipe: 'peanut_stew' })">
           <div>
             <span class="text-[10px] font-bold tracking-widest text-burgundy uppercase block mb-1">WEST AFRICAN</span>
             <h4 class="font-serif text-lg font-bold text-sepia mb-2">Peanut Stew</h4>
@@ -337,7 +340,7 @@
         </div>
 
         <!-- Recipe 5 -->
-        <div class="border-2 border-sepia p-4 bg-white rounded-sm flex flex-col justify-between">
+        <div class="border-2 border-sepia p-4 bg-white rounded-sm flex flex-col justify-between cursor-pointer hover:scale-[1.02] transition-all" onclick="PinchboxAnalytics.track('click_recipe_card_pdp', { recipe: 'shakshuka' })">
           <div>
             <span class="text-[10px] font-bold tracking-widest text-burgundy uppercase block mb-1">TURKISH</span>
             <h4 class="font-serif text-lg font-bold text-sepia mb-2">Shakshuka</h4>
@@ -429,12 +432,14 @@
           messageEl.className = 'mt-3 text-sm font-semibold text-emerald-800';
           emailInput.value = '';
           nameInput.value = '';
+          PinchboxAnalytics.track('waitlist_submit_success', { email: email });
         } else {
           throw new Error('Failed to submit');
         }
       } catch (err) {
         messageEl.textContent = 'Something went wrong. Please try again.';
         messageEl.className = 'mt-3 text-sm font-semibold text-red-800';
+        PinchboxAnalytics.track('waitlist_submit_failure', { error: err.message });
       }
     });
   </script>

@@ -62,6 +62,9 @@
       border-color: #4A3728;
     }
   </style>
+  <!-- Pinchbox Analytical Infrastructure (ESTABLISHED 2026) -->
+  <script src="/analytics.js"></script>
+  <script src="/analytics-ui.js"></script>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased selection:bg-burgundy selection:text-cream">
 
@@ -391,6 +394,11 @@
         });
       }
 
+      // Track box size change
+      if (typeof PinchboxAnalytics !== 'undefined') {
+        PinchboxAnalytics.trackBoxSizeSelection(size, priceTiers[size]);
+      }
+
       // Update calculations
       updateUI();
     }
@@ -415,6 +423,12 @@
       // Update specific input display
       document.getElementById(`qty-${recipeId}`).textContent = selections[recipeId];
       
+      // Track adjust action
+      if (typeof PinchboxAnalytics !== 'undefined') {
+        const actionStr = increment > 0 ? 'add' : 'subtract';
+        PinchboxAnalytics.trackRecipeAdjust(recipeId, recipeNames[recipeId], actionStr, selections[recipeId], boxSize);
+      }
+
       updateUI();
     }
 
@@ -500,8 +514,15 @@
 
       localStorage.setItem('pinchbox_order', JSON.stringify(orderSummary));
 
+      // Track checkout initiation
+      if (typeof PinchboxAnalytics !== 'undefined') {
+        PinchboxAnalytics.trackCheckoutInitiated(boxSize, priceTiers[boxSize], orderSummary.items);
+      }
+
       // Redirect to the respective Stripe Payment Link
-      window.location.href = stripeLinks[boxSize];
+      setTimeout(() => {
+        window.location.href = stripeLinks[boxSize];
+      }, 300); // brief sleep to ensure tracking goes through
     }
 
     // Parse URL Parameters

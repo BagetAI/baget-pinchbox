@@ -57,6 +57,9 @@
       box-shadow: 2px 2px 0px 0px #4A3728;
     }
   </style>
+  <!-- Pinchbox Analytical Infrastructure (ESTABLISHED 2026) -->
+  <script src="/analytics.js"></script>
+  <script src="/analytics-ui.js"></script>
 </head>
 <body class="min-h-screen flex flex-col justify-between antialiased selection:bg-burgundy selection:text-cream">
 
@@ -145,7 +148,12 @@
           });
           container.classList.remove('hidden');
           
-          // Clear selections after showing to avoid confusion in subsequent visits
+          // Track Checkout Success Event immediately on page load!
+          if (typeof PinchboxAnalytics !== 'undefined') {
+            PinchboxAnalytics.trackCheckoutSuccess(order.boxSize, order.price, order.items);
+          }
+
+          // Clear selections after showing to avoid double counting on page refresh
           localStorage.removeItem('pinchbox_order');
         }
       }
